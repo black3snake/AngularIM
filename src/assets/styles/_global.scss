@@ -1,9 +1,57 @@
 html, body {
   margin: 0;
   padding: 0;
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
 }
 
 .container {
   max-width: $container-width;
   margin: 0 auto;
+}
+
+.input {
+  box-sizing: border-box;
+  padding: 17px 20px;
+  border: 2px solid #2a592e;
+  border-radius: 3px;
+
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: $gray-text-color;
+}
+
+.button {
+  text-align: center;
+  border-radius: 5px;
+  padding: 15px;
+  background: #456f49;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: none;
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #fff;
+
+  &:disabled {
+    background: gray;
+    cursor: not-allowed;
+  }
+}
+
+a.button {
+  text-decoration: none;
+  display: inline-block;
+
+}
+
+.mat-mdc-menu-item-text {
+  a, span {
+    font-family: Montserrat, sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    color: $gray-text-color;
+  }
 }
