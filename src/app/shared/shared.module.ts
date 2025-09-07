@@ -1,18 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {PasswordRepeatDirective} from "./directives/password-repeat.directive";
+import { ProductCardComponent } from './components/product-card/product-card.component';
+import {RouterLink} from "@angular/router";
+import {FormsModule} from "@angular/forms";
+import { CategoryFilterComponent } from './components/category-filter/category-filter.component';
 
 
 
 @NgModule({
   declarations: [
-    PasswordRepeatDirective
+    PasswordRepeatDirective,
+    ProductCardComponent,
+    CategoryFilterComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterLink,
+    FormsModule
   ],
   exports: [
-    PasswordRepeatDirective
+    PasswordRepeatDirective,
+    ProductCardComponent,
+    CategoryFilterComponent,
   ]
 })
 export class SharedModule { }

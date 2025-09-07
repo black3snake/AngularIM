@@ -22,6 +22,20 @@ html, body {
   color: $gray-text-color;
 }
 
+.small-input {
+  width: 40px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid #6CAC72;
+  text-align: center;
+  padding: 2px;
+  box-sizing: border-box;
+  color: $green-text-color;
+  font-size: 18px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+}
+
 .button {
   text-align: center;
   border-radius: 5px;
