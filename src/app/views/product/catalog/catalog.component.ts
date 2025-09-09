@@ -27,7 +27,7 @@ export class CatalogComponent implements OnInit {
     this.categoryService.getCategoriesWithTypes()
       .subscribe(data => {
         this.categoriesWithTypes = data;
-        console.log(this.categoriesWithTypes);
+        // console.log(this.categoriesWithTypes);
       })
 
   }
