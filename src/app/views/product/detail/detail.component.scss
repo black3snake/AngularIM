@@ -1,0 +1,121 @@
+@import "variables";
+@import "mixins";
+
+.detail {
+  padding: 101px 0 110px 0;
+  .container {
+    .detail__title {
+      @include head-lora-36
+    }
+    .detail__product {
+      margin-top: 30px;
+      margin-bottom: 120px;
+      display: flex;
+      justify-content: space-between;
+
+      .detail__product_image {
+        width: 528px;
+        height: 528px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 10px;
+      }
+      .detail__product_info {
+        width: 602px;
+        .detail__product_info-items {
+          margin-bottom: 51px;
+
+          .detail__product_info-item {
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px #E7F1E8 solid;
+            display: flex;
+
+            &:first-child {
+              padding-top: 0;
+              margin-top: 0;
+              border-top: 0;
+            }
+
+            .detail__product_info-item-text {
+              margin-left: 22px;
+              width: 528px;
+
+              .detail__product_info-item-text-title {
+                color: $green-text-color;
+                font-size: 20px;
+                font-family: Montserrat, sans-serif;
+                font-style: normal;
+                font-weight: 500;
+                margin-bottom: 15px;
+              }
+              .detail__product_info-item-text-description {
+                color: $gray-text-color;
+                font-size: 16px;
+                line-height: 20.80px;
+              }
+            }
+          }
+        }
+
+        .detail__product_info-param {
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+          margin-top: 12px;
+
+
+          .detail__product_info-name {
+            font-weight: 500;
+            margin-right: 10px;
+          }
+          .detail__product_info-data {
+
+          }
+
+        }
+        .detail__product_info-params {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .detail__product_info-params-count {
+            display: flex;
+            align-items: center;
+
+            span {
+              font-weight: 500;
+              color: $green-text-color;
+              font-size: 16px;
+              font-family: Montserrat,sans-serif;
+              margin-right: 20px;
+            }
+          }
+          .detail__product_info-params-price {
+            color: #313131;
+            font-size: 40px;
+            font-weight: 700;
+          }
+        }
+
+        .detail__product_info-actions {
+          display: flex;
+          align-items: center;
+          margin-top: 22px;
+
+          .button {
+            width: 290px;
+
+            &.button-transparent {
+              width: 307px;
+              margin-right: 10px;
+            }
+          }
+        }
+
+      }
+    }
+    .recommended-products {
+    }
+  }
+}

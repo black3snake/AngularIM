@@ -1,3 +1,5 @@
+@import "variables";
+
 html, body {
   margin: 0;
   padding: 0;
@@ -49,6 +51,21 @@ html, body {
   font-size: 16px;
   color: #fff;
 
+  &.button-transparent {
+    background: transparent;
+    border: 1px solid #6CAC72;
+    color: $green-text-color;
+  }
+
+  &.button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+      margin-left: 16px;
+    }
+  }
+
   &:disabled {
     background: gray;
     cursor: not-allowed;
@@ -67,5 +84,31 @@ a.button {
     font-weight: 400;
     text-decoration: none;
     color: $gray-text-color;
+  }
+}
+
+.carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 50px;
+
+  .carousel-title {
+    @include head-lora-32;
+  }
+
+  .carousel-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    a:last-child {
+      margin-left: 30px;
+    }
   }
 }

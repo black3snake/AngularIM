@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixins";
 
 .catalog {
   padding-top: 100px;
@@ -7,9 +8,7 @@
   .container {
     .catalog-title {
       color: $green-text-color;
-      font-size: 36px;
-      font-family: Lora, sans-serif;
-      font-weight: 400;
+      @include head-lora-36;
       margin-left: 317px;
       margin-bottom: 33px;
     }
@@ -23,7 +22,7 @@
       .catalog-applied-filters {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 10px;
 
         .catalog-applied-filter {
           border-radius: 50px;
@@ -46,10 +45,12 @@
       }
 
       .catalog-sorting {
-        width: 257px;
+        width: 190px;
+        min-width: 190px;
         box-sizing: border-box;
         position: relative;
         font-size: 16px;
+        cursor: pointer;
 
         .catalog-sorting-head {
           display: flex;
@@ -90,6 +91,7 @@
 
         &.open {
           width: 257px;
+          min-width: 257px;
           .catalog-sorting-head {
             color: #000;
             background: #ebebeb;
@@ -142,8 +144,9 @@
         align-items: center;
         justify-content: center;
 
-        &:disabled {
+        &.disabled {
           opacity: 0.5;
+          cursor: not-allowed;
         }
       }
 

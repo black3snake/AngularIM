@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveParamsType} from "../../../../types/active-params.type";
+import {ActiveParamsUtil} from "../../utils/active-params.util";
 
 @Component({
   selector: 'category-filter',
@@ -36,33 +37,10 @@ export class CategoryFilterComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
-      const activeParams: ActiveParamsType = {types: []};
 
-      if(params.hasOwnProperty('types')) {
-        activeParams.types = Array.isArray(params['types']) ? params['types'] : [params['types']];
-      }
-      if(params.hasOwnProperty('heightTo')) {
-        activeParams.heightTo = params['heightTo'];
-      }
-      if(params.hasOwnProperty('heightFrom')) {
-        activeParams.heightFrom = params['heightFrom'];
-      }
-      if(params.hasOwnProperty('diameterTo')) {
-        activeParams.diameterTo = params['diameterTo'];
-      }
-      if(params.hasOwnProperty('diameterFrom')) {
-        activeParams.diameterFrom = params['diameterFrom'];
-      }
-      if(params.hasOwnProperty('sort')) {
-        activeParams.sort = params['sort'];
-      }
-      if(params.hasOwnProperty('page')) {
-        activeParams.page = +params['page'];
-      }
+      this.activeParams = ActiveParamsUtil.processParams(params);
 
-      this.activeParams = activeParams;
-
-      if(this.type) {
+      if (this.type) {
         if (this.type === 'height') {
           this.open = !!(this.activeParams.heightFrom || this.activeParams.heightTo)
           this.from = this.activeParams.heightFrom ? +this.activeParams.heightFrom : null
@@ -73,12 +51,17 @@ export class CategoryFilterComponent implements OnInit {
           this.to = this.activeParams.diameterTo ? +this.activeParams.diameterTo : null
         }
       } else {
-        this.activeParams.types = params['types'];
+        if (params['types']) {
+          this.activeParams.types = Array.isArray(params['types']) ? params['types'] : [params['types']];
+        }
+
+        this.open = !!(this.categoryWithTypes && this.categoryWithTypes.types && this.categoryWithTypes.types.length > 0 &&
+          this.categoryWithTypes.types.some(type =>
+            this.activeParams.types.find(item => type.url === item)))
       }
 
-
-
-      console.log(this.activeParams);
+      // console.log(this.activeParams);
+      console.log(this.activeParams.types);
     })
   }
 
@@ -91,7 +74,6 @@ export class CategoryFilterComponent implements OnInit {
   }
 
   updateFilterParam(url: string, checked: boolean): void {
-
     if (this.activeParams.types && this.activeParams.types.length > 0) {
       const existingTypeInParams = this.activeParams.types.find(item => item === url);
       if (existingTypeInParams && !checked) {
@@ -105,6 +87,7 @@ export class CategoryFilterComponent implements OnInit {
     }
     // console.log(this.activeParams.types);
 
+    this.activeParams.page = 1;
     this.router.navigate(['/catalog'], {
       queryParams: this.activeParams
     });
@@ -120,6 +103,7 @@ export class CategoryFilterComponent implements OnInit {
         this.activeParams[param] = value;
       }
 
+      this.activeParams.page = 1;
       this.router.navigate(['/catalog'], {
         queryParams: this.activeParams
       });
