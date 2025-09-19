@@ -12,6 +12,18 @@
       margin-bottom: 35px;
     }
 
+    .favorite__empty {
+      margin-top: 20px;
+      margin-bottom: 100px;
+      div {
+        font-size: 16px;
+      }
+      .button {
+        width: 255px;
+        margin-top: 10px;
+      }
+    }
+
     .favorite__products {
       .favorite__product {
         padding-top: 15px;

@@ -25,7 +25,8 @@ export class AuthService {
       email, password, rememberMe
     });
   }
-  signup(email: string, password: string, passwordRepeat:string): Observable<LoginResponseType | DefaultResponseType> {
+
+  signup(email: string, password: string, passwordRepeat: string): Observable<LoginResponseType | DefaultResponseType> {
     return this.http.post<LoginResponseType | DefaultResponseType>(environment.apiUrl + 'signup', {
       email, password, passwordRepeat
     });
@@ -35,7 +36,7 @@ export class AuthService {
     const tokens = this.getTokens();
     if (tokens && tokens.refreshToken) {
       return this.http.post<DefaultResponseType>(environment.apiUrl + 'logout', {
-      refreshToken: tokens.refreshToken
+        refreshToken: tokens.refreshToken
       });
     }
     throw throwError(() => 'Can not find token');
@@ -77,4 +78,15 @@ export class AuthService {
       localStorage.removeItem(this.userIdKey);
     }
   }
+
+  public refresh(): Observable<LoginResponseType | DefaultResponseType> {
+    const tokens = this.getTokens();
+    if (tokens && tokens.refreshToken) {
+      return this.http.post<LoginResponseType | DefaultResponseType>(environment.apiUrl + 'refresh', {
+        refreshToken: tokens.refreshToken
+      })
+    }
+    throw throwError(() => 'Can not use token');
+  }
+
 }
