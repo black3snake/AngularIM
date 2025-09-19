@@ -22,7 +22,7 @@ export class AuthService {
 
   login(email: string, password: string, rememberMe: boolean): Observable<LoginResponseType | DefaultResponseType> {
     return this.http.post<LoginResponseType | DefaultResponseType>(environment.apiUrl + 'login', {
-      email, password,rememberMe
+      email, password, rememberMe
     });
   }
   signup(email: string, password: string, passwordRepeat:string): Observable<LoginResponseType | DefaultResponseType> {

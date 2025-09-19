@@ -14,4 +14,5 @@ export type ProductType = {
     name: string,
     url: string,
   }
+  countInCart?: number
 }

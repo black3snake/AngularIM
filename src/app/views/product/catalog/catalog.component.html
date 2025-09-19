@@ -44,12 +44,12 @@
 
       </div>
 
-      <div class="catalog-products" *ngIf="products.length > 0; else defaultImageBlock">
-        <product-card *ngFor="let product of products" [product]="product"></product-card>
+      <div class="catalog-products" *ngIf="!emptyProductsInCatalog">
+        <product-card [countInCart]="product.countInCart"  *ngFor="let product of products" [product]="product"></product-card>
       </div>
-      <ng-template #defaultImageBlock>
+      <div class="catalog-products" *ngIf="emptyProductsInCatalog">
         Найденных товаров нет, попробуйте изменить настройки фильтра.
-      </ng-template>
+      </div>
 
     </div>
 
