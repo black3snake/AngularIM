@@ -1,0 +1,103 @@
+@import "variables";
+@import "mixins";
+@import "data-form";
+
+.order {
+  padding-top: 86px;
+  padding-bottom: 107px;
+
+  .container {
+    .order__title {
+      @include head-lora-32;
+    }
+
+    .order__info {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+
+
+
+
+      .order__info_details {
+        width: 422px;
+
+        .order__info_details_info {
+          border-radius: 5px;
+          background: #e7f1e8;
+          padding: 40px;
+          margin-bottom: 14px;
+
+          .order__info_details_info-title {
+            color: $green-text-color;
+            font-style: normal;
+            font-size: 26px;
+            font-family: Lora, sans-serif;
+            font-weight: 400;
+            margin-bottom: 20px;
+          }
+
+          .order__info_details_info-item {
+            display: flex;
+            align-items: center;
+            color: $gray-text-color;
+            font-family: Montserrat, sans-serif;
+            margin-bottom: 10px;
+
+            .order__info_details_info-item-text {
+              font-size: 16px;
+              margin-right: 12px;
+            }
+
+            .order__info_details_info-item-data {
+              font-weight: 500;
+              font-size: 20px;
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+
+              .order__info_details_info-item-text,
+              .order__info_details_info-item-data {
+                font-family: "Montserrat", sans-serif;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    }
+
+  }
+}
+
+.order-popup {
+  padding: 100px 70px 220px 70px;
+  position: relative;
+  text-align: center;
+  color: $green-text-color;
+  background-image: url("../../../../assets/images/page/popup.png");
+  background-position: bottom center;
+  background-repeat: no-repeat;
+
+  .order-popup-close {
+    position: absolute;
+    cursor: pointer;
+    top: 30px;
+    right: 30px;
+  }
+
+  .order-popup-title {
+    @include head-lora-32;
+    margin-bottom: 40px;
+  }
+
+  .order-popup-content {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+}

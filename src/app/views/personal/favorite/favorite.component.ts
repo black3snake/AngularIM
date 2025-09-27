@@ -39,7 +39,6 @@ export class FavoriteComponent implements OnInit {
               console.log('Не могу получить доступ к серверу');
             }
           }
-
         },
       )
   }

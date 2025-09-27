@@ -61,7 +61,7 @@ export class CategoryFilterComponent implements OnInit {
       }
 
       // console.log(this.activeParams);
-      console.log(this.activeParams.types);
+      // console.log(this.activeParams.types);
     })
   }
 

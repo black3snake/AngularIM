@@ -10,6 +10,12 @@ import {AppliedFilterType} from "../../../../types/applied-filter.type";
 import {debounceTime} from "rxjs";
 import {CartService} from "../../../shared/services/cart.service";
 import {CartType} from "../../../../types/cart.type";
+import {FavoriteService} from "../../../shared/services/favorite.service";
+import {FavoriteType} from "../../../../types/favorite.type";
+import {DefaultResponseType} from "../../../../types/default-response.type";
+import {HttpErrorResponse} from "@angular/common/http";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {AuthService} from "../../../core/auth/auth.service";
 
 @Component({
   selector: 'app-catalog',
@@ -24,6 +30,7 @@ export class CatalogComponent implements OnInit {
   appliedFilters: AppliedFilterType[] = [];
   sortingOpen = false;
   emptyProductsInCatalog = false;
+  favoriteProducts: FavoriteType[] | null = null;
 
   sortOptions: { name: string, value: string }[] = [
     {name: 'От А до Я', value: 'az-asc'},
@@ -34,17 +41,59 @@ export class CatalogComponent implements OnInit {
   pages: number[] = [];
   cart: CartType | null = null;
 
-  constructor(private productService: ProductService, private router: Router,
-              private categoryService: CategoryService, private activatedRoute: ActivatedRoute, private cartService: CartService) {
+  constructor(private productService: ProductService,
+              private router: Router,
+              private categoryService: CategoryService,
+              private activatedRoute: ActivatedRoute,
+              private cartService: CartService,
+              private favoriteService: FavoriteService,
+              private _snackBar: MatSnackBar,
+              private authService: AuthService,) {
   }
 
   ngOnInit(): void {
     this.cartService.getCart()
-      .subscribe((data: CartType) => {
-      this.cart = data;
-    })
+      .subscribe((data: CartType | DefaultResponseType) => {
+        if ((data as DefaultResponseType).error !== undefined) {
+          throw new Error((data as DefaultResponseType).message);
+        }
+        this.cart = data as CartType;
+
+        if (this.authService.getIsLoggedIn()) {
+          this.favoriteService.getFavorites()
+            .subscribe({
+              next: (data: FavoriteType[] | DefaultResponseType) => {
+                if ((data as DefaultResponseType).error !== undefined) {
+                  const error = (data as DefaultResponseType).message;
+                  this.processCatalog();
+                  throw new Error(error);
+                }
+
+                this.favoriteProducts = data as FavoriteType[];
+                this.processCatalog();
+
+              },
+              error: (err: HttpErrorResponse) => {
+                if (err.error && err.error.message) {
+                  this._snackBar.open(err.error.message);
+                  console.log(err.error.message);
+                } else {
+                  this._snackBar.open('Не могу получить доступ к серверу');
+                  console.log('Не могу получить доступ к серверу');
+                }
+                this.processCatalog();
+              }
+            })
+        } else {
+          this.processCatalog();
+        }
 
 
+      })
+  }
+
+
+  processCatalog() {
     this.categoryService.getCategoriesWithTypes()
       .subscribe(data => {
         this.categoriesWithTypes = data;
@@ -55,76 +104,88 @@ export class CatalogComponent implements OnInit {
             debounceTime(500),
           )
           .subscribe((params) => {
-          this.activeParams = ActiveParamsUtil.processParams(params);
+            this.activeParams = ActiveParamsUtil.processParams(params);
 
-          this.appliedFilters = [];
-          this.emptyProductsInCatalog = false;
-          this.activeParams.types.forEach(url => {
-            for (let i = 0; i < this.categoriesWithTypes.length; i++) {
-              const foundType = this.categoriesWithTypes[i].types.find(type => type.url === url);
-              if (foundType) {
-                this.appliedFilters.push({
-                  name: foundType.name,
-                  urlParam: foundType.url
-                });
-              }
-            }
-          })
-
-          if (this.activeParams.heightFrom) {
-            this.appliedFilters.push({
-              name: 'Высота: от ' + this.activeParams.heightFrom + ' см',
-              urlParam: 'heightFrom'
-            })
-          }
-          if (this.activeParams.heightTo) {
-            this.appliedFilters.push({
-              name: 'Высота: до ' + this.activeParams.heightTo + ' см',
-              urlParam: 'heightTo'
-            })
-          }
-          if (this.activeParams.diameterFrom) {
-            this.appliedFilters.push({
-              name: 'Диаметр: от ' + this.activeParams.diameterFrom + ' см',
-              urlParam: 'diameterFrom'
-            })
-          }
-          if (this.activeParams.diameterTo) {
-            this.appliedFilters.push({
-              name: 'Диаметр: до ' + this.activeParams.diameterTo + ' см',
-              urlParam: 'diameterTo'
-            })
-          }
-
-          this.productService.getProducts(this.activeParams)
-            .subscribe(data => {
-              this.pages = [];
-              for (let i = 1; i <= data.pages; i++) {
-                this.pages.push(i);
-              }
-
-              if(this.cart && this.cart.items.length > 0) {
-                this.products = data.items.map(product => {
-                if (this.cart) {
-                  const productInCart = this.cart.items.find(item => item.product.id === product.id)
-                  if (productInCart) {
-                    product.countInCart = productInCart.quantity;
-                  }
+            this.appliedFilters = [];
+            this.emptyProductsInCatalog = false;
+            this.activeParams.types.forEach(url => {
+              for (let i = 0; i < this.categoriesWithTypes.length; i++) {
+                const foundType = this.categoriesWithTypes[i].types.find(type => type.url === url);
+                if (foundType) {
+                  this.appliedFilters.push({
+                    name: foundType.name,
+                    urlParam: foundType.url
+                  });
                 }
-                return product;
-                })
-              } else {
-                this.products = data.items;
-              }
-
-              if(this.products.length === 0) {
-                this.emptyProductsInCatalog = true
               }
             })
-        })
-      })
 
+            if (this.activeParams.heightFrom) {
+              this.appliedFilters.push({
+                name: 'Высота: от ' + this.activeParams.heightFrom + ' см',
+                urlParam: 'heightFrom'
+              })
+            }
+            if (this.activeParams.heightTo) {
+              this.appliedFilters.push({
+                name: 'Высота: до ' + this.activeParams.heightTo + ' см',
+                urlParam: 'heightTo'
+              })
+            }
+            if (this.activeParams.diameterFrom) {
+              this.appliedFilters.push({
+                name: 'Диаметр: от ' + this.activeParams.diameterFrom + ' см',
+                urlParam: 'diameterFrom'
+              })
+            }
+            if (this.activeParams.diameterTo) {
+              this.appliedFilters.push({
+                name: 'Диаметр: до ' + this.activeParams.diameterTo + ' см',
+                urlParam: 'diameterTo'
+              })
+            }
+
+            this.productService.getProducts(this.activeParams)
+              .subscribe(data => {
+                this.pages = [];
+                for (let i = 1; i <= data.pages; i++) {
+                  this.pages.push(i);
+                }
+
+                if (this.cart && this.cart.items.length > 0) {
+                  this.products = data.items.map(product => {
+                    if (this.cart) {
+                      const productInCart = this.cart.items.find(item => item.product.id === product.id)
+                      if (productInCart) {
+                        product.countInCart = productInCart.quantity;
+                      }
+                    }
+                    return product;
+                  })
+                } else {
+                  this.products = data.items;
+                }
+
+                if (this.products.length === 0) {
+                  this.emptyProductsInCatalog = true
+                }
+
+                if(this.favoriteProducts) {
+                  this.products = this.products.map(product => {
+                    const productInFavorite = this.favoriteProducts?.find(item => item.id === product.id)
+                    if (productInFavorite) {
+                      product.isInFavorite = true;
+                    }
+                    return product;
+                  })
+                }
+
+              })
+          })
+      })
   }
+
+
 
   removeAppliedFilter(appliedFilter: AppliedFilterType) {
     if (appliedFilter.urlParam === 'heightFrom' || appliedFilter.urlParam === 'heightTo' ||
