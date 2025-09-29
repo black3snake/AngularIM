@@ -6,6 +6,7 @@ import {DefaultResponseType} from "../../../../types/default-response.type";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {OrderType} from "../../../../types/order.type";
+import {OrderStatusUtil} from "../../../shared/utils/order-status.util";
 
 @Component({
   selector: 'app-orders',
@@ -29,7 +30,14 @@ export class OrdersComponent implements OnInit {
             throw new Error((data as DefaultResponseType).message);
           }
 
-          this.orders = data as OrderType[];
+          this.orders = (data as OrderType[]).map(item => {
+            const status = OrderStatusUtil.getStatusAndColor(item.status)
+
+            item.statusRus = status.name;
+            item.color = status.color;
+
+            return item
+          });
         },
         error: (err: HttpErrorResponse) => {
           if (err.error && err.error.message) {

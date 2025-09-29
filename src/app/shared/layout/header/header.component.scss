@@ -111,6 +111,7 @@ header.header {
               &.active {
                 border-bottom-color: $green-text-color;
               }
+
               a {
                 color: $green-text-color;
                 cursor: pointer;
@@ -146,6 +147,61 @@ header.header {
             top: 13px;
             left: 15px;
           }
+
+          .search-products {
+            position: absolute;
+            right: 0;
+            top: 61px;
+            width: 400px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            border: 1px solid #EBEBEB;
+
+            .search-product {
+              padding: 12px 23px;
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              background-color: #ffffff;
+
+              &:first-child {
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+              }
+
+              &:last-child {
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+              }
+
+              .search-product-image {
+                border-radius: 5px;
+                width: 40px;
+                height: 40px;
+                margin-right: 25px;
+                background-position: center;
+                background-size: cover;
+              }
+
+              .search-product-name {
+                font-weight: 400;
+                font-size: 16px;
+                color: #8e8e8e;
+                line-height: 130%;
+              }
+
+              &:hover {
+                background-color: #EBEBEB;
+
+                .search-product-name {
+                  font-weight: 400;
+                  font-size: 16px;
+                  color: #000;
+                }
+              }
+            }
+          }
+
         }
       }
 

@@ -3,6 +3,7 @@ import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveParamsType} from "../../../../types/active-params.type";
 import {ActiveParamsUtil} from "../../utils/active-params.util";
+import {LoaderService} from "../../services/loader.service";
 
 @Component({
   selector: 'category-filter',
@@ -32,10 +33,13 @@ export class CategoryFilterComponent implements OnInit {
     return '';
   }
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router,
+              private loaderService: LoaderService,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.loaderService.show();
     this.activatedRoute.queryParams.subscribe((params) => {
 
       this.activeParams = ActiveParamsUtil.processParams(params);

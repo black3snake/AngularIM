@@ -28,7 +28,10 @@
           </table>
         </div>
 
-        <div class="orders-list-item-status">{{order.status}}</div>
+        <div class="orders-list-item-status" style="border-color: {{order.color}};
+             color: {{order.color}};">
+          {{order.statusRus}}
+        </div>
         <div class="orders-list-item-price">{{order.totalAmount}} BYN</div>
 
       </div>

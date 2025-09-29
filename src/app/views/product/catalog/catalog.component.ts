@@ -16,6 +16,7 @@ import {DefaultResponseType} from "../../../../types/default-response.type";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AuthService} from "../../../core/auth/auth.service";
+import {LoaderService} from "../../../shared/services/loader.service";
 
 @Component({
   selector: 'app-catalog',
@@ -48,15 +49,18 @@ export class CatalogComponent implements OnInit {
               private cartService: CartService,
               private favoriteService: FavoriteService,
               private _snackBar: MatSnackBar,
+              private loaderService: LoaderService,
               private authService: AuthService,) {
   }
 
   ngOnInit(): void {
+
     this.cartService.getCart()
       .subscribe((data: CartType | DefaultResponseType) => {
         if ((data as DefaultResponseType).error !== undefined) {
           throw new Error((data as DefaultResponseType).message);
         }
+
         this.cart = data as CartType;
 
         if (this.authService.getIsLoggedIn()) {
@@ -88,7 +92,7 @@ export class CatalogComponent implements OnInit {
           this.processCatalog();
         }
 
-
+        // this.loaderService.hide();
       })
   }
 

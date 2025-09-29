@@ -15,10 +15,10 @@
                 <a routerLink="/catalog">Каталог</a>
               </li>
               <li>
-                <a href="">Отзывы</a>
+                <a routerLink="/" fragment="reviews">Отзывы</a>
               </li>
               <li>
-                <a href="">Доставка и оплата</a>
+                <a routerLink="/" fragment="delivery">Доставка и оплата</a>
               </li>
             </ul>
           </nav>
@@ -75,8 +75,17 @@
             </ul>
           </nav>
         </div>
+<!--                 (blur)="changeShowedSearch(false)" (focus)="changeShowedSearch(true)"-->
         <div class="header__bottom-search">
-          <input type="text" placeholder="Начните искать" name="" id="">
+          <input type="text" placeholder="Начните искать" name="" id="" [formControl]="searchField">
+
+          <div class="search-products" *ngIf="showedSearch && products && products.length > 0">
+            <div class="search-product" *ngFor="let product of products" (click)="selectProduct(product.url)">
+              <div class="search-product-image" [style.background-image]="'url(' + serverStaticPath + product.image + ')'"></div>
+              <div class="search-product-name">{{product.name}}</div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
