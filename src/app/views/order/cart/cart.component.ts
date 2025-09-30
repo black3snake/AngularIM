@@ -67,7 +67,7 @@ export class CartComponent implements OnInit {
           throw new Error((data as DefaultResponseType).message);
         }
         this.cartProducts = data as CartType;
-        console.log(this.cartProducts.items);
+        // console.log(this.cartProducts.items);
         this.calculateTotal();
       },
       error: (err: HttpErrorResponse) => {

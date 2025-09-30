@@ -99,6 +99,7 @@ export class HeaderComponent implements OnInit {
     this.authService.userId = null;
     this._snackBar.open('Вы успешно вышли из системы');
     this.router.navigate(['/']);
+    this.count = 0;
   }
 
   // changeSearchValue(newValue: string) {

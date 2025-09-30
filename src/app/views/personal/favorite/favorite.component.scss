@@ -15,9 +15,11 @@
     .favorite__empty {
       margin-top: 20px;
       margin-bottom: 100px;
+
       div {
         font-size: 16px;
       }
+
       .button {
         width: 255px;
         margin-top: 10px;
@@ -46,6 +48,7 @@
           width: 100px;
           height: 100px;
           border-radius: 5px;
+          cursor: pointer;
         }
 
         .favorite__product-name {
@@ -54,6 +57,7 @@
           color: $gray-text-color;
           width: 567px;
           margin-right: 20px;
+          cursor: pointer;
         }
 
         .favorite__product-price {
@@ -63,15 +67,20 @@
           font-size: 22px;
           color: $gray-text-color;
           width: 110px;
-          margin-right: 183px;
+          margin-right: 90px;
         }
+
+        .favorite__product-count {
+          margin-right: 20px;
+        }
+
         .favorite__product-action button {
           width: 160px;
         }
 
         .favorite__product-remove {
           cursor: pointer;
-          margin-left: 60px;
+          margin-left: 30px;
 
         }
 

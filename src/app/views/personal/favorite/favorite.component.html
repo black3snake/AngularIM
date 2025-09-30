@@ -8,11 +8,18 @@
     <div class="favorite__products" *ngIf="products && products.length > 0">
 
       <div class="favorite__product" *ngFor="let product of products">
-        <div class="favorite__product-image"  [style.background-image]="'url(' + serverStaticPath + product.image + ')'"></div>
-        <div class="favorite__product-name">{{product.name}}</div>
+        <div class="favorite__product-image"  [style.background-image]="'url(' + serverStaticPath + product.image + ')'" routerLink="/product/{{product.url}}"></div>
+        <div class="favorite__product-name" routerLink="/product/{{product.url}}">{{product.name}}</div>
         <div class="favorite__product-price">{{product.price}} BYN</div>
+        <div class="favorite__product-count">
+          <count-selector [count]="product.countInCart ? product.countInCart : count" (onCountChange)="updateCount(product.id, $event)"></count-selector>
+        </div>
         <div class="favorite__product-action">
-          <button class="button" routerLink="/product/{{product.url}}">Открыть</button>
+          <button class="button" *ngIf="!product.countInCart" (click)="addToCart(product.url)">В корзину</button>
+          <button class="button button-transparent button-in-cart" *ngIf="product.countInCart && product.countInCart > 0" (click)="removeFromCart(product.id)">
+            <span>В корзине</span>
+            <span>Удалить</span>
+          </button>
         </div>
         <div class="favorite__product-remove" (click)="removeFromFavorites(product.id)">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
