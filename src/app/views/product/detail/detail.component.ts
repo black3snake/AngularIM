@@ -22,6 +22,7 @@ import {AuthService} from "../../../core/auth/auth.service";
 export class DetailComponent implements OnInit {
 
   count: number = 1;
+  isLogged: boolean = false;
   recommendedProducts: ProductType[] = [];
   product!: ProductType;
   serverStaticPath: string = environment.serverStaticPath;
@@ -84,6 +85,7 @@ export class DetailComponent implements OnInit {
               })
 
             if (this.authService.getIsLoggedIn()) {
+              this.isLogged = this.authService.getIsLoggedIn();
               this.favoriteService.getFavorites()
                 .subscribe((data: FavoriteType[] | DefaultResponseType) => {
                   if ((data as DefaultResponseType).error !== undefined) {
@@ -117,6 +119,10 @@ export class DetailComponent implements OnInit {
           console.log(err);
         }
       })
+
+    this.authService.isLogged$.subscribe((isLogged: boolean) => {
+      this.isLogged = isLogged;
+    })
   }
 
   updateCount(value: number) {

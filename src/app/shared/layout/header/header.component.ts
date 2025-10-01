@@ -65,6 +65,7 @@ export class HeaderComponent implements OnInit {
 
     this.authService.isLogged$.subscribe((isLogged: boolean) => {
       this.isLogged = isLogged;
+      console.log(this.isLogged)
     })
 
     this.cartService.getCartCount()

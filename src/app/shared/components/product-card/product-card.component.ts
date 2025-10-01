@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ProductType} from "../../../../types/product.type";
 import {environment} from "../../../../environments/environment";
 import {CartService} from "../../services/cart.service";
@@ -24,6 +24,8 @@ export class ProductCardComponent implements OnInit {
   // isInCart: boolean = false;
   @Input() countInCart: number | undefined = 0;
 
+  isLogged: boolean = false;
+
   constructor(private cartService: CartService,
               private favoriteService: FavoriteService,
               private _snackBar: MatSnackBar,
@@ -34,6 +36,11 @@ export class ProductCardComponent implements OnInit {
     if (this.countInCart && this.countInCart > 1) {
       this.count = this.countInCart;
     }
+
+    this.isLogged = this.authService.getIsLoggedIn();
+    this.authService.isLogged$.subscribe((isLogged: boolean) => {
+      this.isLogged = isLogged;
+    })
   }
 
   addToCart(): void {
@@ -128,4 +135,5 @@ export class ProductCardComponent implements OnInit {
       this.router.navigate(['/product/' + this.product.url])
     }
   }
+
 }
