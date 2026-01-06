@@ -31,7 +31,7 @@ export class SignupComponent {
     return this.signupForm.get('passwordRepeat');
   }
   get agree() {
-    return this.signupForm.get('password');
+    return this.signupForm.get('agree');
   }
 
   constructor(private fb: FormBuilder, private authService: AuthService, private _snackBar: MatSnackBar,

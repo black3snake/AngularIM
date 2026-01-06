@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {CatalogComponent} from "../product/catalog/catalog.component";
 import {CartComponent} from "./cart/cart.component";
 import {OrderComponent} from "./order/order.component";
 

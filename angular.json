@@ -19,7 +19,9 @@
           "options": {
             "outputPath": "dist/angular-im",
             "stylePreprocessorOptions": {
-              "includePaths": ["src/assets/styles"]
+              "includePaths": [
+                "src/assets/styles"
+              ]
             },
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -95,7 +97,9 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "stylePreprocessorOptions": {
-              "includePaths": ["src/assets/styles"]
+              "includePaths": [
+                "src/assets/styles"
+              ]
             },
             "polyfills": [
               "zone.js",
@@ -116,8 +120,22 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   }
 }
